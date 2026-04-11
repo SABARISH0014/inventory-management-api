@@ -10,6 +10,9 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // Routes
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./docs/swagger");
 const productRoutes = require("./routes/productRoutes");
 const supplierRoutes = require("./routes/supplierRoutes");
 const stockRoutes = require("./routes/stockRoutes");
@@ -35,5 +38,7 @@ app.get("/", (req, res) => {
 // Global error handler (must be after all routes)
 const errorMiddleware = require("./middlewares/errorMiddleware");
 app.use(errorMiddleware);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
