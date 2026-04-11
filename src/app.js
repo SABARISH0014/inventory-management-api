@@ -12,6 +12,7 @@ const productRoutes = require("./routes/productRoutes");
 const supplierRoutes = require("./routes/supplierRoutes");
 const stockRoutes = require("./routes/stockRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 // Mount routes
 app.use("/api/products", productRoutes);
@@ -20,6 +21,7 @@ app.use("/api/stock", stockRoutes);
 app.use("/api/transactions", transactionRoutes);
 
 // Test route
+app.use("/api/reports", reportRoutes);
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
