@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
-const { validateProduct } = require("../utils/validators");
+const { validateProduct, validateProductUpdate } = require("../utils/validators");
 
 /**
  * @swagger
@@ -86,7 +86,7 @@ router.get("/:id", productController.getProductById);
  *       400:
  *         description: Invalid data
  */
-router.put("/:id",validateProduct, productController.updateProduct);
+router.put("/:id",validateProductUpdate, productController.updateProduct);
 
 /**
  * @swagger
