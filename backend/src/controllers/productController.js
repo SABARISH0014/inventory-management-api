@@ -1,6 +1,11 @@
 const productService = require("../services/productService");
+const { validateProduct } = require("../utils/validators");
+
 exports.createProduct = async (req, res) => {
     try {
+        validateProduct(req, res);
+        if (res.headersSent) return;
+        
         const product = await productService.createProduct(req.body);
         res.status(201).json(product);
     } catch(error) {

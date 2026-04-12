@@ -1,9 +1,12 @@
 const Product = require("../models/Product");
 
 exports.createProduct = async (data) => {
-    const existing = await Product.findOne({sku: data.sku});
-    if (existing) {
-        throw new Error("SKU already exists");
+    // Only check for duplicate SKU if one is provided
+    if (data.sku && data.sku.trim() !== "") {
+        const existing = await Product.findOne({sku: data.sku});
+        if (existing) {
+            throw new Error("SKU already exists");
+        }
     }
     const product = new Product(data);
     return await product.save();

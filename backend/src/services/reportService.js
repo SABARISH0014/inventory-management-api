@@ -5,15 +5,24 @@ exports.getInventorySummary = async () => {
   const products = await Product.find();
 
   const totalProducts = products.length;
-
+  
   const totalQuantity = products.reduce(
     (sum, p) => sum + p.quantity,
     0
   );
 
+  const totalValue = products.reduce(
+    (sum, p) => sum + (p.price * p.quantity),
+    0
+  );
+
+  const lowStockCount = products.filter(p => p.quantity < p.minStock).length;
+
   return {
     totalProducts,
-    totalQuantity
+    totalQuantity,
+    totalValue,
+    lowStockCount
   };
 };
 

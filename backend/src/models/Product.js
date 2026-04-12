@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const generateSKU = () => {
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = Math.random().toString(36).substring(2, 5).toUpperCase();
+    return `SKU-${timestamp}-${random}`;
+};
+
 const ProductSchema = new Schema(
     {
         name: {
@@ -39,6 +45,12 @@ const ProductSchema = new Schema(
         timestamps: true
     }
 );
+
+ProductSchema.pre("save", function() {
+    if (!this.sku || this.sku.trim() === "") {
+        this.sku = generateSKU();
+    }
+});
 
 const Product = mongoose.model("Product", ProductSchema);
 

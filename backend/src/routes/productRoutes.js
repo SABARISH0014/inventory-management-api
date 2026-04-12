@@ -36,7 +36,7 @@ const { validateProduct, validateProductUpdate } = require("../utils/validators"
  *       500:
  *         description: Server error
  */
-router.post("/", validateProduct, productController.createProduct);
+router.post("/", productController.createProduct);
 
 /**
  * @swagger

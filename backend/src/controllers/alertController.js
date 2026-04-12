@@ -7,10 +7,7 @@ exports.getLowStockAlerts = async (req, res) => {
 
     const alerts = await alertService.getLowStockAlerts();
 
-    res.status(200).json({
-      success: true,
-      data: alerts
-    });
+    res.status(200).json(alerts);
 
   } catch (error) {
 

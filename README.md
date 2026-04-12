@@ -1,6 +1,7 @@
-# 📦 Inventory Management API
+# 📦 Inventory Management System
 
-A full-featured RESTful API for managing inventory, suppliers, stock movements, and generating business reports. Built with **Node.js**, **Express 5**, and **MongoDB** (Mongoose 9).
+A full-stack RESTful API and Web Dashboard for managing inventory, suppliers, stock movements, and generating business reports. 
+Built with a **Node.js/Express** backend and a **React/Vite** frontend customized with **Tailwind CSS**.
 
 ---
 
@@ -51,16 +52,16 @@ A full-featured RESTful API for managing inventory, suppliers, stock movements, 
 
 | Technology | Purpose | Version |
 |---|---|---|
+| **React + Vite** | Frontend Framework | v18 / v6 |
+| **Tailwind CSS** | Styling & UI | v3.4 |
+| **Axios** | HTTP Client | v1.7 |
 | **Node.js** | Runtime environment | v24+ |
 | **Express** | Web framework | v5.2 |
 | **MongoDB** | NoSQL database | v8.2 |
 | **Mongoose** | MongoDB ODM | v9.4 |
-| **JSON Web Token** | Authentication | v9.0 |
+| **JSON Web Token**| Authentication | v9.0 |
 | **bcryptjs** | Password hashing | v3.0 |
-| **express-validator** | Input validation | v7.3 |
-| **Morgan** | HTTP request logger | v1.10 |
-| **CORS** | Cross-origin resource sharing | v2.8 |
-| **dotenv** | Environment variables | v17.4 |
+| **express-validator**| Input validation | v7.3 |
 
 ---
 
@@ -106,12 +107,21 @@ Client Request
 
 ```
 ECFS_Hackathon/
-├── server.js                    # Entry point — starts Express & connects DB
-├── .env                         # Environment variables (not committed)
-├── package.json                 # Dependencies & scripts
+├── client/                      # frontend React + Vite UI
+│   ├── src/                     
+│   │   ├── api/                 # Axios configuration
+│   │   ├── components/          # Reusable JSX components
+│   │   └── pages/               # React Route views (Login, Dashboard, Inventory)
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
 │
-└── src/
-    ├── app.js                   # Express app configuration & route mounting
+└── backend/                     # backend Node.js + Express API
+    ├── server.js                # Entry point
+    ├── .env                     # Environment variables
+    ├── package.json             
+    └── src/
+        ├── app.js               # Express configurations
     │
     ├── config/
     │   └── db.js                # MongoDB connection logic
@@ -197,24 +207,23 @@ JWT_SECRET=your_secret_key_here
 | `MONGO_URI` | MongoDB connection string | `mongodb://localhost:27017/inventory` |
 | `JWT_SECRET` | Secret key for JWT signing | Any random strong string |
 
-### Running the Server
+### Running the Servers
 
+Because this is a dual-repo structure, you must launch the backend API and the frontend dashboard strictly in parallel.
+
+**1. Run the Backend:**
 ```bash
-# Production
-npm start
-
-# Development (with auto-reload)
+cd backend
 npm run dev
 ```
 
-You should see:
-
+**2. Run the Frontend:**
+```bash
+cd client
+npm run dev
 ```
-DB connected
-Server running on port 5000
-```
 
-Verify by opening: [http://localhost:5000](http://localhost:5000) → `"API is running..."`
+Verify by opening: [http://localhost:5173](http://localhost:5173) in your browser!
 
 ---
 
@@ -428,12 +437,14 @@ Content-Type: application/json
 | `GET` | `/api/reports/total-value` | Total inventory value (price × qty) | ❌ |
 | `GET` | `/api/reports/transactions` | Full transaction history | ❌ |
 
-#### Inventory Summary Response
+#### Inventory Summary Response (`/api/reports/summary`)
 
 ```json
 {
   "totalProducts": 15,
-  "totalQuantity": 1250
+  "totalQuantity": 1250,
+  "totalValue": 125000,
+  "lowStockCount": 3
 }
 ```
 
