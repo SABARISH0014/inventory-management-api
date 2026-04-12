@@ -1,7 +1,14 @@
 # 📦 Inventory Management System
 
-A full-stack RESTful API and Web Dashboard for managing inventory, suppliers, stock movements, and generating business reports. 
-Built with a **Node.js/Express** backend and a **React/Vite** frontend customized with **Tailwind CSS**.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+A robust, full-stack RESTful API and sleek Web Dashboard for managing inventory, tracking suppliers, monitoring stock movements, and generating dynamic business reports. 
+Built with a highly scalable **Node.js/Express** backend and a beautifully minimalist **React/Vite** frontend customized with **Tailwind CSS**.
 
 ---
 
@@ -35,16 +42,17 @@ Built with a **Node.js/Express** backend and a **React/Vite** frontend customize
 
 ## ✨ Features
 
-- **Product Management** — Full CRUD operations with SKU-based uniqueness and supplier linking
-- **Supplier Management** — Create, read, update, and delete supplier records
-- **Stock In/Out** — Track stock movements with automatic quantity updates
-- **Transaction Logging** — Every stock movement is logged with timestamps
-- **Low Stock Alerts** — Automatic detection when product quantity drops below minimum threshold
-- **Business Reports** — Inventory summary, total value calculation, low-stock reports, and transaction history
-- **JWT Authentication** — Secure user registration/login with role-based access (admin, manager, staff)
-- **Input Validation** — Request body validation using `express-validator`
-- **Global Error Handling** — Centralized error middleware for consistent error responses
-- **Request Logging** — HTTP request logging via Morgan
+- **Modern & Minimalist UI** — A clean, responsive dashboard crafted with React and Tailwind CSS for an intuitive user experience.
+- **Product Management** — Full CRUD operations with SKU-based uniqueness and effortless supplier linking.
+- **Supplier Management** — Create, view, edit, and delete comprehensive supplier records.
+- **Dynamic Stock In/Out** — Seamless stock movement tracking using global modals and instant quantity recalculations.
+- **Transaction Logging** — Automatic end-to-end historical logging of every stock movement with timestamps.
+- **Proactive Low Stock Alerts** — Automated notifications when any product's quantity falls below its preset minimum threshold.
+- **Business Intelligence Reports** — Real-time inventory summaries, total financial value calculations, and comprehensive transaction logs.
+- **JWT Robust Authentication** — Secure user signup/login, token-based session management, and role-based access architectures.
+- **Security & Validation** — Request payloads strongly validated utilizing `express-validator`.
+- **Global Error Handling** — Centralized middleware intercepts and unifies API error responses seamlessly.
+- **Request Logging** — HTTP request tracking via Morgan for streamlined debugging.
 
 ---
 
