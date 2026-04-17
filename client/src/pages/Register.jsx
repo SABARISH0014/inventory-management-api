@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import api from "../api/axios";
 
 const containerVariants = {
@@ -63,6 +64,16 @@ export default function Register() {
 
   return (
     <div className="login-page">
+      <motion.button
+        type="button"
+        className="auth-back-button"
+        onClick={() => navigate("/")}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <ArrowLeft size={16} />
+        Back
+      </motion.button>
       <motion.div
         className="login-panel"
         initial="hidden"

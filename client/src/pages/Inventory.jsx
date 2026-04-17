@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import api from "../api/axios";
 import StockModal from "../components/StockModal";
 import ProductModal from "../components/ProductModal";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import TransactionModal from "../components/TransactionModal";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, Plus, Package } from "lucide-react";
 
 export default function Inventory() {
   const navigate = useNavigate();
@@ -101,26 +102,92 @@ export default function Inventory() {
     }
   };
 
+  const tableVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const rowVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  const buttonVariants = {
+    whileHover: { scale: 1.08, y: -2 },
+    whileTap: { scale: 0.95 },
+  };
+
   return (
     <section className="inventory-page">
-      <div className="inventory-header">
+      <motion.div
+        className="inventory-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div>
-          <h2>Inventory</h2>
+          <h2>
+            <Package size={24} style={{ marginRight: "8px", verticalAlign: "middle" }} />
+            Inventory
+          </h2>
           <p>Manage stock and product availability.</p>
         </div>
         <div className="header-buttons">
-          <button type="button" className="button button-primary" onClick={() => openProductModal()}>
+          <motion.button
+            type="button"
+            className="button button-primary"
+            onClick={() => openProductModal()}
+            variants={buttonVariants}
+            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Plus size={16} style={{ marginRight: "8px" }} />
             Add Product
-          </button>
-          <button type="button" className="button button-secondary" onClick={() => setTransactionModalOpen(true)}>
+          </motion.button>
+          <motion.button
+            type="button"
+            className="button button-secondary"
+            onClick={() => setTransactionModalOpen(true)}
+            variants={buttonVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             New Transaction
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
-      {statusMessage ? <p className="status-message">{statusMessage}</p> : null}
+      {statusMessage && (
+        <motion.p
+          className="status-message success"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+        >
+          {statusMessage}
+        </motion.p>
+      )}
 
-      <div className="table-wrapper">
+      <motion.div
+        className="table-wrapper"
+        variants={tableVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <table className="inventory-table">
           <thead>
             <tr>
@@ -136,22 +203,36 @@ export default function Inventory() {
             {loading ? (
               <tr>
                 <td colSpan="6" className="table-loading">
+                  <motion.div
+                    className="loading-spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
                   Loading products...
                 </td>
               </tr>
             ) : products.length === 0 ? (
               <tr>
                 <td colSpan="6" className="table-empty">
-                  No products available.
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Package size={40} style={{ marginBottom: "12px", opacity: 0.3 }} />
+                    <p>No products available.</p>
+                  </motion.div>
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
-                <tr
+              products.map((product, index) => (
+                <motion.tr
                   key={product._id}
+                  variants={rowVariants}
                   className={product.quantity < product.minStock ? "row-low-stock" : ""}
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/products/${product._id}`)}
+                  whileHover={{ backgroundColor: "rgba(79, 70, 229, 0.04)" }}
                 >
                   <td data-label="Name">{product.name}</td>
                   <td data-label="SKU">{product.sku}</td>
@@ -159,21 +240,55 @@ export default function Inventory() {
                   <td data-label="Quantity">{product.quantity}</td>
                   <td data-label="Min Stock">{product.minStock}</td>
                   <td className="action-cell" data-label="Actions" onClick={(e) => e.stopPropagation()}>
-                    <button type="button" className="button button-secondary button-small" onClick={() => openStockModal(product, "in")}>Stock In</button>
-                    <button type="button" className="button button-outline button-small" onClick={() => openStockModal(product, "out")}>Stock Out</button>
-                    <button type="button" className="button button-icon" title="Edit" onClick={() => openProductModal(product)}>
+                    <motion.button
+                      type="button"
+                      className="button button-secondary button-small"
+                      onClick={() => openStockModal(product, "in")}
+                      variants={buttonVariants}
+                      whileHover={{ scale: 1.08, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Stock In
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      className="button button-outline button-small"
+                      onClick={() => openStockModal(product, "out")}
+                      variants={buttonVariants}
+                      whileHover={{ scale: 1.08, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Stock Out
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      className="button button-icon"
+                      title="Edit"
+                      onClick={() => openProductModal(product)}
+                      variants={buttonVariants}
+                      whileHover={{ scale: 1.1, backgroundColor: "rgba(79, 70, 229, 0.1)" }}
+                      whileTap={{ scale: 0.9 }}
+                    >
                       <Edit2 size={16} />
-                    </button>
-                    <button type="button" className="button button-icon button-danger" title="Delete" onClick={() => openDeleteModal(product)}>
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      className="button button-icon button-danger"
+                      title="Delete"
+                      onClick={() => openDeleteModal(product)}
+                      variants={buttonVariants}
+                      whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
+                      whileTap={{ scale: 0.9 }}
+                    >
                       <Trash2 size={16} />
-                    </button>
+                    </motion.button>
                   </td>
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>
         </table>
-      </div>
+      </motion.div>
 
       <StockModal
         open={stockModalOpen}
