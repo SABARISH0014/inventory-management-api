@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 
@@ -86,19 +87,33 @@ export default function ProductModal({ open, onClose, product, onSubmit }) {
     }
   };
 
-  if (!open) return null;
-
   const title = product ? "Edit Product" : "Add Product";
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-panel" onClick={(event) => event.stopPropagation()}>
-        <div className="modal-header">
-          <h3>{title}</h3>
-          <button type="button" className="modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
+    <AnimatePresence>
+      {open ? (
+        <motion.div
+          className="modal-backdrop"
+          onClick={onClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <motion.div
+            className="modal-panel"
+            onClick={(event) => event.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 20 }}
+            transition={{ type: "spring", stiffness: 260, damping: 24 }}
+          >
+            <div className="modal-header">
+              <h3>{title}</h3>
+              <button type="button" className="modal-close" onClick={onClose}>
+                ×
+              </button>
+            </div>
         <form className="modal-form" onSubmit={handleSubmit}>
           <label>
             Product Name
@@ -183,7 +198,9 @@ export default function ProductModal({ open, onClose, product, onSubmit }) {
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
+  ) : null}
+</AnimatePresence>
   );
 }

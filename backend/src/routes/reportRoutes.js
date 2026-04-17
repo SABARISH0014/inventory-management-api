@@ -37,4 +37,13 @@ router.get("/total-value", reportController.getTotalInventoryValue);
  *     tags: [Reports]
  */
 router.get("/transactions", reportController.getTransactionHistory);
+
+/**
+ * @swagger
+ * /api/reports/trends:
+ *   get:
+ *     summary: Inventory trends for the last 30 days
+ *     tags: [Reports]
+ */
+router.get("/trends", reportController.getInventoryTrends);
 module.exports = router;

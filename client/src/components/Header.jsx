@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 const titles = {
   "/dashboard": "Dashboard",
@@ -20,7 +21,7 @@ function getTitle(path) {
   return titles[path] || "Inventory Management";
 }
 
-export default function Header() {
+export default function Header({ onMenuToggle }) {
   const location = useLocation();
   const navigate = useNavigate();
   const title = getTitle(location.pathname);
@@ -35,8 +36,18 @@ export default function Header() {
 
   return (
     <header className="page-header">
-      <div>
-        <p className="page-label">{title}</p>
+      <div className="header-left">
+        <button
+          type="button"
+          className="menu-toggle"
+          onClick={onMenuToggle}
+          aria-label="Toggle menu"
+        >
+          <Menu size={20} />
+        </button>
+        <div>
+          <p className="page-label">{title}</p>
+        </div>
       </div>
       <div className="profile-panel">
         <div>

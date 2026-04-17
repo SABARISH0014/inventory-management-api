@@ -43,6 +43,57 @@ exports.getTotalInventoryValue = async () => {
   return { totalValue };
 };
 
+exports.getInventoryTrends = async () => {
+  const today = new Date();
+  const fromDate = new Date(today);
+  fromDate.setDate(today.getDate() - 29);
+  fromDate.setHours(0, 0, 0, 0);
+
+  const results = await Transaction.aggregate([
+    {
+      $match: {
+        date: { $gte: fromDate }
+      }
+    },
+    {
+      $project: {
+        type: 1,
+        quantity: 1,
+        day: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$date"
+          }
+        }
+      }
+    },
+    {
+      $group: {
+        _id: "$day",
+        totalIn: {
+          $sum: {
+            $cond: [{ $eq: ["$type", "IN"] }, "$quantity", 0]
+          }
+        },
+        totalOut: {
+          $sum: {
+            $cond: [{ $eq: ["$type", "OUT"] }, "$quantity", 0]
+          }
+        }
+      }
+    },
+    {
+      $sort: { _id: 1 }
+    }
+  ]);
+
+  return results.map((item) => ({
+    date: item._id,
+    totalIn: item.totalIn,
+    totalOut: item.totalOut
+  }));
+};
+
 exports.getTransactionHistory = async () => {
   return await Transaction.find().populate("productID");
 };

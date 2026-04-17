@@ -1,6 +1,24 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.12,
+      when: "beforeChildren",
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 export default function Register() {
   const navigate = useNavigate();
@@ -45,59 +63,79 @@ export default function Register() {
 
   return (
     <div className="login-page">
-      <div className="login-panel">
-        <h1>Create Account</h1>
-        <p>Sign up for the inventory management system.</p>
-        <form onSubmit={handleSubmit} className="login-form">
-          <label>
+      <motion.div
+        className="login-panel"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <motion.h1 variants={itemVariants}>Create Account</motion.h1>
+        <motion.p variants={itemVariants}>Sign up for the inventory management system.</motion.p>
+        <motion.form
+          onSubmit={handleSubmit}
+          className="login-form"
+          variants={containerVariants}
+        >
+          <motion.label variants={itemVariants}>
             Full Name
-            <input
+            <motion.input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               required
+              variants={itemVariants}
             />
-          </label>
-          <label>
+          </motion.label>
+          <motion.label variants={itemVariants}>
             Email
-            <input
+            <motion.input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
+              variants={itemVariants}
             />
-          </label>
-          <label>
+          </motion.label>
+          <motion.label variants={itemVariants}>
             Password
-            <input
+            <motion.input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               required
+              variants={itemVariants}
             />
-          </label>
-          <label>
+          </motion.label>
+          <motion.label variants={itemVariants}>
             Confirm Password
-            <input
+            <motion.input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
+              variants={itemVariants}
             />
-          </label>
-          {error ? <p className="form-error">{error}</p> : null}
-          <button type="submit" className="button button-primary" disabled={loading}>
+          </motion.label>
+          {error ? <motion.p className="form-error" variants={itemVariants}>{error}</motion.p> : null}
+          <motion.button
+            type="submit"
+            className="button button-primary"
+            disabled={loading}
+            variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
             {loading ? "Creating account..." : "Create Account"}
-          </button>
-          <p className="form-link">
+          </motion.button>
+          <motion.p className="form-link" variants={itemVariants}>
             Already have an account? <Link to="/login">Sign in</Link>
-          </p>
-        </form>
-      </div>
+          </motion.p>
+        </motion.form>
+      </motion.div>
     </div>
   );
 }

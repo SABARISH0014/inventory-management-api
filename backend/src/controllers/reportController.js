@@ -27,6 +27,15 @@ exports.getTotalInventoryValue = async (req, res) => {
   }
 };
 
+exports.getInventoryTrends = async (req, res) => {
+  try {
+    const data = await reportService.getInventoryTrends();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getTransactionHistory = async (req, res) => {
   try {
     const data = await reportService.getTransactionHistory();

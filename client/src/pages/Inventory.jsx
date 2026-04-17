@@ -153,12 +153,12 @@ export default function Inventory() {
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/products/${product._id}`)}
                 >
-                  <td>{product.name}</td>
-                  <td>{product.sku}</td>
-                  <td>₹ {product.price.toLocaleString()}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.minStock}</td>
-                  <td className="action-cell" onClick={(e) => e.stopPropagation()}>
+                  <td data-label="Name">{product.name}</td>
+                  <td data-label="SKU">{product.sku}</td>
+                  <td data-label="Price">₹ {product.price.toLocaleString()}</td>
+                  <td data-label="Quantity">{product.quantity}</td>
+                  <td data-label="Min Stock">{product.minStock}</td>
+                  <td className="action-cell" data-label="Actions" onClick={(e) => e.stopPropagation()}>
                     <button type="button" className="button button-secondary button-small" onClick={() => openStockModal(product, "in")}>Stock In</button>
                     <button type="button" className="button button-outline button-small" onClick={() => openStockModal(product, "out")}>Stock Out</button>
                     <button type="button" className="button button-icon" title="Edit" onClick={() => openProductModal(product)}>

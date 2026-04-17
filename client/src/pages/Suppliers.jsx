@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import api from "../api/axios";
 import SupplierModal from "../components/SupplierModal";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, Plus, Users, Building, Phone, Mail } from "lucide-react";
 
 export default function Suppliers() {
   const navigate = useNavigate();
@@ -67,27 +68,101 @@ export default function Suppliers() {
     }
   };
 
+  const tableVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const rowVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
   return (
     <section className="suppliers-page">
-      <div className="inventory-header">
+      <motion.div
+        className="inventory-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <div>
-          <h2>Suppliers</h2>
-          <p>Manage supplier information and contacts.</p>
+          <h2>
+            <Users size={24} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Supplier Management
+          </h2>
+          <p>Manage your supplier relationships and contact information</p>
         </div>
-        <button type="button" className="button button-primary" onClick={() => openModal()}>
+        <motion.button
+          type="button"
+          className="button button-primary"
+          onClick={() => openModal()}
+          whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Plus size={16} style={{ marginRight: '8px' }} />
           Add Supplier
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
-      {statusMessage ? <p className="status-message">{statusMessage}</p> : null}
+      <motion.div
+        className="suppliers-stats"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="stat-card">
+          <Building size={20} />
+          <div>
+            <p className="stat-value">{suppliers.length}</p>
+            <p className="stat-label">Total Suppliers</p>
+          </div>
+        </div>
+        <div className="stat-card success">
+          <Users size={20} />
+          <div>
+            <p className="stat-value">{suppliers.filter(s => s.email).length}</p>
+            <p className="stat-label">Active Contacts</p>
+          </div>
+        </div>
+      </motion.div>
 
-      <div className="table-wrapper">
+      {statusMessage && (
+        <motion.div
+          className="status-message success"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+        >
+          {statusMessage}
+        </motion.div>
+      )}
+
+      <motion.div
+        className="table-wrapper"
+        variants={tableVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <table className="inventory-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
+              <th>Supplier</th>
+              <th>Contact</th>
               <th>Address</th>
               <th>Actions</th>
             </tr>
@@ -95,51 +170,79 @@ export default function Suppliers() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="6" className="table-loading">
+                <td colSpan="4" className="table-loading">
+                  <div className="loading-spinner"></div>
                   Loading suppliers...
                 </td>
               </tr>
             ) : suppliers.length === 0 ? (
               <tr>
-                <td colSpan="6" className="table-empty">
+                <td colSpan="4" className="table-empty">
                   No suppliers available.
                 </td>
               </tr>
             ) : (
               suppliers.map((supplier) => (
-                <tr
+                <motion.tr
                   key={supplier._id}
+                  variants={rowVariants}
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/suppliers/${supplier._id}`)}
+                  whileHover={{ backgroundColor: "rgba(79, 70, 229, 0.04)" }}
                 >
-                  <td>{supplier.name}</td>
-                  <td>{supplier.email}</td>
-                  <td>{supplier.phone}</td>
-                  <td>{supplier.address}</td>
-                  <td className="action-cell" onClick={(e) => e.stopPropagation()}>
-                    <button
+                  <td data-label="Supplier">
+                    <div className="supplier-info">
+                      <strong>{supplier.name}</strong>
+                      <div className="supplier-meta">
+                        <span className="supplier-badge">🏢 Supplier</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td data-label="Contact">
+                    <div className="contact-info">
+                      <div className="contact-item">
+                        <Mail size={14} />
+                        <span>{supplier.email}</span>
+                      </div>
+                      {supplier.phone && (
+                        <div className="contact-item">
+                          <Phone size={14} />
+                          <span>{supplier.phone}</span>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td data-label="Address">
+                    <span className="address-text">{supplier.address || "—"}</span>
+                  </td>
+                  <td className="action-cell" data-label="Actions" onClick={(e) => e.stopPropagation()}>
+                    <motion.button
                       type="button"
                       className="button button-icon"
                       title="Edit"
                       onClick={() => openModal(supplier)}
+                      whileHover={{ scale: 1.1, backgroundColor: "rgba(79, 70, 229, 0.1)" }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <Edit2 size={16} />
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                       type="button"
                       className="button button-icon button-danger"
                       title="Delete"
                       onClick={() => openDeleteModal(supplier)}
+                      whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <Trash2 size={16} />
-                    </button>
+                    </motion.button>
                   </td>
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>
         </table>
-      </div>
+      </motion.div>
 
       <SupplierModal
         open={modalOpen}

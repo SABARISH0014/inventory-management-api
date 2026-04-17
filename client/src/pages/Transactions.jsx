@@ -74,14 +74,14 @@ export default function Transactions() {
                 const date = new Date(transaction.date);
                 return (
                   <tr key={transaction._id}>
-                    <td>{productName}</td>
-                    <td>
+                    <td data-label="Product">{productName}</td>
+                    <td data-label="Type">
                       <span className={`status-badge ${getTypeClass(transaction.type)}`}>
                         {getTypeLabel(transaction.type)}
                       </span>
                     </td>
-                    <td>{transaction.quantity}</td>
-                    <td>{date.toLocaleDateString()} {date.toLocaleTimeString()}</td>
+                    <td data-label="Quantity">{transaction.quantity}</td>
+                    <td data-label="Date">{date.toLocaleDateString()} {date.toLocaleTimeString()}</td>
                   </tr>
                 );
               })
