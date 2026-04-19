@@ -8,6 +8,12 @@ export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [transactionModalOpen, setTransactionModalOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUserRole(user?.role || "staff");
+  }, []);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -56,7 +62,7 @@ export default function Transactions() {
   };
 
   return (
-    <section className="transactions-page">
+    <section className="transactions-page" style={{ width: '100%', maxWidth: '100%' }}>
       <motion.div
         className="inventory-header"
         initial={{ opacity: 0, y: -20 }}
@@ -70,16 +76,18 @@ export default function Transactions() {
           </h2>
           <p>View all stock movements and transactions.</p>
         </div>
-        <motion.button
-          type="button"
-          className="button button-primary"
-          onClick={() => setTransactionModalOpen(true)}
-          whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Plus size={16} style={{ marginRight: "8px" }} />
-          New Transaction
-        </motion.button>
+        {userRole && ["admin", "manager"].includes(userRole) && (
+          <motion.button
+            type="button"
+            className="button button-primary"
+            onClick={() => setTransactionModalOpen(true)}
+            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Plus size={16} style={{ marginRight: "8px" }} />
+            New Transaction
+          </motion.button>
+        )}
       </motion.div>
 
       <motion.div

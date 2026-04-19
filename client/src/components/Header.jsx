@@ -9,6 +9,7 @@ const titles = {
   "/suppliers/:id": "Supplier Details",
   "/transactions": "Transactions",
   "/alerts": "Alerts",
+  "/users": "User Management",
 };
 
 function getTitle(path) {
@@ -19,6 +20,20 @@ function getTitle(path) {
   if (supplierMatch) return "Supplier Details";
 
   return titles[path] || "Inventory Management";
+}
+
+// Get role badge color
+function getRoleColor(role) {
+  switch (role) {
+    case "admin":
+      return "#d946ef"; // Pink
+    case "manager":
+      return "#8b5cf6"; // Purple
+    case "staff":
+      return "#3b82f6"; // Blue
+    default:
+      return "#6b7280"; // Gray
+  }
 }
 
 export default function Header({ onMenuToggle }) {
@@ -52,7 +67,16 @@ export default function Header({ onMenuToggle }) {
       <div className="profile-panel">
         <div>
           <p className="profile-name">{user.name || "User"}</p>
-          <p className="profile-role">Admin</p>
+          <p
+            className="profile-role"
+            style={{
+              color: getRoleColor(user.role),
+              textTransform: "capitalize",
+              fontWeight: "600",
+            }}
+          >
+            {user.role || "Staff"}
+          </p>
         </div>
         <button type="button" className="logout-button" onClick={logout}>
           Logout

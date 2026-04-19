@@ -28,6 +28,7 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "staff",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,7 @@ export default function Register() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        role: formData.role,
       });
       navigate("/login", { replace: true });
     } catch (err) {
@@ -130,6 +132,19 @@ export default function Register() {
               required
               variants={itemVariants}
             />
+          </motion.label>
+          <motion.label variants={itemVariants}>
+            Role
+            <motion.select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              variants={itemVariants}
+            >
+              <option value="staff">Staff</option>
+              <option value="manager">Manager</option>
+              <option value="admin">Admin</option>
+            </motion.select>
           </motion.label>
           {error ? <motion.p className="form-error" variants={itemVariants}>{error}</motion.p> : null}
           <motion.button

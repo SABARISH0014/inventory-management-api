@@ -19,6 +19,20 @@ export default function Inventory() {
   const [transactionModalOpen, setTransactionModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    // Get user role from localStorage
+    const user = localStorage.getItem("user");
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        setUserRole(userData.role);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   const loadProducts = async () => {
     setLoading(true);
@@ -60,9 +74,11 @@ export default function Inventory() {
       setStatusMessage(`Updated stock for ${selectedProduct.name}.`);
       closeStockModal();
       loadProducts();
+      setTimeout(() => setStatusMessage(""), 3000);
     } catch (error) {
       const message = error.response?.data?.message || "Unable to update stock.";
       setStatusMessage(message);
+      setTimeout(() => setStatusMessage(""), 3000);
     }
   };
 
@@ -86,6 +102,7 @@ export default function Inventory() {
     }
     closeProductModal();
     loadProducts();
+    setTimeout(() => setStatusMessage(""), 3000);
   };
 
   const openDeleteModal = (product) => {
@@ -99,6 +116,7 @@ export default function Inventory() {
       setStatusMessage("Product deleted successfully.");
       setSelectedProduct(null);
       loadProducts();
+      setTimeout(() => setStatusMessage(""), 3000);
     }
   };
 
@@ -131,8 +149,14 @@ export default function Inventory() {
     whileTap: { scale: 0.95 },
   };
 
+  // Check if user can create/edit/delete products
+  const canCreateProduct = userRole && ["admin", "manager"].includes(userRole);
+  const canEditProduct = userRole && ["admin", "manager"].includes(userRole);
+  const canDeleteProduct = userRole === "admin";
+  const canRemoveStock = userRole && ["admin", "manager"].includes(userRole);
+
   return (
-    <section className="inventory-page">
+    <section className="inventory-page" style={{ width: "100%", maxWidth: "100%" }}>
       <motion.div
         className="inventory-header"
         initial={{ opacity: 0, y: -20 }}
@@ -147,27 +171,31 @@ export default function Inventory() {
           <p>Manage stock and product availability.</p>
         </div>
         <div className="header-buttons">
-          <motion.button
-            type="button"
-            className="button button-primary"
-            onClick={() => openProductModal()}
-            variants={buttonVariants}
-            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Plus size={16} style={{ marginRight: "8px" }} />
-            Add Product
-          </motion.button>
-          <motion.button
-            type="button"
-            className="button button-secondary"
-            onClick={() => setTransactionModalOpen(true)}
-            variants={buttonVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            New Transaction
-          </motion.button>
+          {canCreateProduct && (
+            <motion.button
+              type="button"
+              className="button button-primary"
+              onClick={() => openProductModal()}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Plus size={16} style={{ marginRight: "8px" }} />
+              Add Product
+            </motion.button>
+          )}
+          {canRemoveStock && (
+            <motion.button
+              type="button"
+              className="button button-secondary"
+              onClick={() => setTransactionModalOpen(true)}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              New Transaction
+            </motion.button>
+          )}
         </div>
       </motion.div>
 
@@ -250,38 +278,44 @@ export default function Inventory() {
                     >
                       Stock In
                     </motion.button>
-                    <motion.button
-                      type="button"
-                      className="button button-outline button-small"
-                      onClick={() => openStockModal(product, "out")}
-                      variants={buttonVariants}
-                      whileHover={{ scale: 1.08, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Stock Out
-                    </motion.button>
-                    <motion.button
-                      type="button"
-                      className="button button-icon"
-                      title="Edit"
-                      onClick={() => openProductModal(product)}
-                      variants={buttonVariants}
-                      whileHover={{ scale: 1.1, backgroundColor: "rgba(79, 70, 229, 0.1)" }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Edit2 size={16} />
-                    </motion.button>
-                    <motion.button
-                      type="button"
-                      className="button button-icon button-danger"
-                      title="Delete"
-                      onClick={() => openDeleteModal(product)}
-                      variants={buttonVariants}
-                      whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Trash2 size={16} />
-                    </motion.button>
+                    {canRemoveStock && (
+                      <motion.button
+                        type="button"
+                        className="button button-outline button-small"
+                        onClick={() => openStockModal(product, "out")}
+                        variants={buttonVariants}
+                        whileHover={{ scale: 1.08, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Stock Out
+                      </motion.button>
+                    )}
+                    {canEditProduct && (
+                      <motion.button
+                        type="button"
+                        className="button button-icon"
+                        title="Edit"
+                        onClick={() => openProductModal(product)}
+                        variants={buttonVariants}
+                        whileHover={{ scale: 1.1, backgroundColor: "rgba(79, 70, 229, 0.1)" }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Edit2 size={16} />
+                      </motion.button>
+                    )}
+                    {canDeleteProduct && (
+                      <motion.button
+                        type="button"
+                        className="button button-icon button-danger"
+                        title="Delete"
+                        onClick={() => openDeleteModal(product)}
+                        variants={buttonVariants}
+                        whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Trash2 size={16} />
+                      </motion.button>
+                    )}
                   </td>
                 </motion.tr>
               ))

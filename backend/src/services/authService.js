@@ -1,29 +1,31 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const register = async (data) => {
 
-  const { name, email, password } = data;
+const register = async (data) => {
+  const { name, email, password, role = "staff" } = data;
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
     throw new Error("User already exists");
   }
+
   const user = await User.create({
     name,
     email,
-    password
+    password,
+    role
   });
 
   return {
     id: user._id,
     name: user.name,
-    email: user.email
+    email: user.email,
+    role: user.role
   };
-
 };
-const login = async (data) => {
 
+const login = async (data) => {
   const { email, password } = data;
 
   const user = await User.findOne({ email });
@@ -31,13 +33,15 @@ const login = async (data) => {
   if (!user) {
     throw new Error("Invalid email or password");
   }
+
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
     throw new Error("Invalid email or password");
   }
+
   const token = jwt.sign(
-    { id: user._id },
+    { id: user._id, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
@@ -47,10 +51,10 @@ const login = async (data) => {
     user: {
       id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      role: user.role
     }
   };
-
 };
 
 module.exports = {

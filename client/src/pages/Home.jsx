@@ -107,6 +107,37 @@ export default function Home() {
 
   return (
     <div className="home-page">
+      {/* Fixed Navigation Bar */}
+      <nav className="home-navbar">
+        <div className="navbar-brand">
+          <span className="brand-logo">📦 Inventory</span>
+        </div>
+        <div className="navbar-links">
+          <a href="#hero" className="nav-anchor">Home</a>
+          <a href="#features" className="nav-anchor">Features</a>
+        </div>
+        <div className="navbar-buttons">
+          <motion.button
+            type="button"
+            className="button button-secondary"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </motion.button>
+          <motion.button
+            type="button"
+            className="button button-primary"
+            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(37, 99, 235, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/register")}
+          >
+            Sign Up
+          </motion.button>
+        </div>
+      </nav>
+
       {/* Animated Background Elements */}
       <div className="animated-background">
         {backgroundElements.map((element) => (
@@ -136,9 +167,11 @@ export default function Home() {
 
       <motion.section
         className="home-hero-section"
+        id="hero"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
+        style={{ width: '100%', maxWidth: '100%' }}
       >
         <motion.div className="home-hero" variants={heroVariants}>
           <motion.p className="home-pretitle" variants={titleVariants}>
@@ -153,35 +186,17 @@ export default function Home() {
             Transform your business operations with intelligent inventory tracking,
             real-time analytics, and seamless supplier management. Built for modern enterprises.
           </motion.p>
-          <motion.div className="home-buttons" variants={titleVariants}>
-            <motion.button
-              type="button"
-              className="button button-primary"
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(37, 99, 235, 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/login")}
-            >
-              Get Started
-            </motion.button>
-            <motion.button
-              type="button"
-              className="button button-secondary"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/register")}
-            >
-              Create Account
-            </motion.button>
-          </motion.div>
         </motion.div>
       </motion.section>
 
       <motion.section
         className="home-features"
+        id="features"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.1 }}
         variants={featuresVariants}
+        style={{ width: '100%', maxWidth: '100%' }}
       >
         <div className="container">
           <motion.div className="features-header" variants={featureCardVariants}>

@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
+const authMiddleware = require("../middlewares/authMiddleware");
+const authorize = require("../middlewares/authorizeMiddleware");
 const { validateProduct, validateProductUpdate } = require("../utils/validators");
 
 /**
  * @swagger
  * /api/products:
  *   post:
- *     summary: Create a new product
+ *     summary: Create a new product (Admin/Manager only)
  *     tags: [Products]
  *     requestBody:
  *       required: true
@@ -33,16 +35,18 @@ const { validateProduct, validateProductUpdate } = require("../utils/validators"
  *         description: Product created
  *       400:
  *         description: Invalid input
+ *       403:
+ *         description: Access denied
  *       500:
  *         description: Server error
  */
-router.post("/", productController.createProduct);
+router.post("/", authMiddleware, authorize("admin", "manager"), productController.createProduct);
 
 /**
  * @swagger
  * /api/products:
  *   get:
- *     summary: Get all products
+ *     summary: Get all products (All roles)
  *     tags: [Products]
  *     responses:
  *       200:
@@ -54,7 +58,7 @@ router.get("/", productController.getAllProducts);
  * @swagger
  * /api/products/{id}:
  *   get:
- *     summary: Get product by ID
+ *     summary: Get product by ID (All roles)
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -74,7 +78,7 @@ router.get("/:id", productController.getProductById);
  * @swagger
  * /api/products/{id}:
  *   put:
- *     summary: Update product
+ *     summary: Update product (Admin/Manager only)
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -85,14 +89,16 @@ router.get("/:id", productController.getProductById);
  *         description: Product updated
  *       400:
  *         description: Invalid data
+ *       403:
+ *         description: Access denied
  */
-router.put("/:id",validateProductUpdate, productController.updateProduct);
+router.put("/:id", authMiddleware, authorize("admin", "manager"), validateProductUpdate, productController.updateProduct);
 
 /**
  * @swagger
  * /api/products/{id}:
  *   delete:
- *     summary: Delete product
+ *     summary: Delete product (Admin only)
  *     tags: [Products]
  *     parameters:
  *       - in: path
@@ -101,8 +107,11 @@ router.put("/:id",validateProductUpdate, productController.updateProduct);
  *     responses:
  *       200:
  *         description: Product deleted
+ *       403:
+ *         description: Access denied
  *       404:
  *         description: Not found
  */
-router.delete("/:id", productController.deleteProduct);
+router.delete("/:id", authMiddleware, authorize("admin"), productController.deleteProduct);
+
 module.exports = router;

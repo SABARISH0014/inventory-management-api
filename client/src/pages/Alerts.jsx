@@ -58,7 +58,7 @@ export default function Alerts() {
   };
 
   return (
-    <section className="alerts-page">
+    <section className="alerts-page" style={{ width: '100%', maxWidth: '100%' }}>
       <motion.div
         className="alerts-header"
         initial={{ opacity: 0, y: -20 }}

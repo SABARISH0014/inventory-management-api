@@ -13,7 +13,6 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // Routes
-
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./docs/swagger");
 const productRoutes = require("./routes/productRoutes");
@@ -23,6 +22,7 @@ const transactionRoutes = require("./routes/transactionRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const authRoutes = require("./routes/authRoutes");
 const alertRoutes = require("./routes/alertRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // Mount routes
 app.use("/api/products", productRoutes);
@@ -32,6 +32,7 @@ app.use("/api/transactions", transactionRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/alerts", alertRoutes);
+app.use("/api/users", userRoutes);
 
 // Test route
 app.get("/", (req, res) => {

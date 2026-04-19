@@ -50,9 +50,14 @@ Built with a highly scalable **Node.js/Express** backend and a beautifully minim
 - **Proactive Low Stock Alerts** — Automated notifications when any product's quantity falls below its preset minimum threshold.
 - **Business Intelligence Reports** — Real-time inventory summaries, total financial value calculations, and comprehensive transaction logs.
 - **JWT Robust Authentication** — Secure user signup/login, token-based session management, and role-based access architectures.
+- **Role-Based Access Control (RBAC)** — Three-tier role system (Admin, Manager, Staff) with granular permissions on both backend and frontend.
+- **Session Timeout Management** — 15-minute idle timeout with 2-minute warning modal and "Stay Logged In" option.
+- **Trend Analysis Dashboard** — Advanced visualization with multiple chart types (Line, Bar, Area), date range filtering, and CSV export.
+- **Auto-Dismissing Messages** — Status messages automatically disappear after 3 seconds with smooth animations.
 - **Security & Validation** — Request payloads strongly validated utilizing `express-validator`.
 - **Global Error Handling** — Centralized middleware intercepts and unifies API error responses seamlessly.
 - **Request Logging** — HTTP request tracking via Morgan for streamlined debugging.
+- **MongoDB Atlas Integration** — Cloud-based database with automatic backups and high availability.
 
 ---
 
@@ -69,7 +74,9 @@ Built with a highly scalable **Node.js/Express** backend and a beautifully minim
 | **Mongoose** | MongoDB ODM | v9.4 |
 | **JSON Web Token**| Authentication | v9.0 |
 | **bcryptjs** | Password hashing | v3.0 |
-| **express-validator**| Input validation | v7.3 |
+| **Framer Motion** | Animations & Transitions | v10.16 |
+| **Recharts** | Data Visualization | v2.10 |
+| **Lucide React** | Icon Library | v0.263 |
 
 ---
 
@@ -201,19 +208,25 @@ npm install
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the backend directory:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/inventory
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/inventory?retryWrites=true&w=majority
 JWT_SECRET=your_secret_key_here
+NODE_ENV=production
 ```
 
-| Variable | Description | Example |
-|---|---|---|
-| `PORT` | Server port | `5000` |
-| `MONGO_URI` | MongoDB connection string | `mongodb://localhost:27017/inventory` |
-| `JWT_SECRET` | Secret key for JWT signing | Any random strong string |
+**For MongoDB Atlas:**
+- Replace `<username>` with your database user
+- Replace `<password>` with your database password
+- Replace `cluster0.xxxxx` with your actual cluster name
+- Database name: `inventory`
+
+**For Frontend (Vercel/Netlify):**
+```env
+VITE_API_URL=https://your-backend-url.com
+```
 
 ### Running the Servers
 
@@ -255,9 +268,12 @@ Content-Type: application/json
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "password": "password123"
+  "password": "password123",
+  "role": "staff"
 }
 ```
+
+**Role Options:** `staff` (default), `manager`, `admin`
 
 **Response (201):**
 ```json
@@ -287,7 +303,13 @@ Content-Type: application/json
 ```json
 {
   "success": true,
-  "token": "eyJhbGciOiJIUzI1NiIs..."
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "661f...",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "staff"
+  }
 }
 ```
 
@@ -295,13 +317,13 @@ Content-Type: application/json
 
 ### Products
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `POST` | `/api/products` | Create a product | ❌ |
-| `GET` | `/api/products` | Get all products | ❌ |
-| `GET` | `/api/products/:id` | Get product by ID | ❌ |
-| `PUT` | `/api/products/:id` | Update a product | ❌ |
-| `DELETE` | `/api/products/:id` | Delete a product | ❌ |
+| Method | Endpoint | Description | Auth Required | Role Required |
+|---|---|---|---|---|
+| `POST` | `/api/products` | Create a product | ❌ | Admin/Manager |
+| `GET` | `/api/products` | Get all products | ❌ | — |
+| `GET` | `/api/products/:id` | Get product by ID | ❌ | — |
+| `PUT` | `/api/products/:id` | Update a product | ❌ | Admin/Manager |
+| `DELETE` | `/api/products/:id` | Delete a product | ❌ | Admin |
 
 #### Create Product
 
@@ -345,13 +367,13 @@ Content-Type: application/json
 
 ### Suppliers
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `POST` | `/api/suppliers` | Create a supplier | ❌ |
-| `GET` | `/api/suppliers` | Get all suppliers | ❌ |
-| `GET` | `/api/suppliers/:id` | Get supplier by ID | ❌ |
-| `PUT` | `/api/suppliers/:id` | Update a supplier | ❌ |
-| `DELETE` | `/api/suppliers/:id` | Delete a supplier | ❌ |
+| Method | Endpoint | Description | Auth Required | Role Required |
+|---|---|---|---|---|
+| `POST` | `/api/suppliers` | Create a supplier | ❌ | Admin/Manager |
+| `GET` | `/api/suppliers` | Get all suppliers | ❌ | — |
+| `GET` | `/api/suppliers/:id` | Get supplier by ID | ❌ | — |
+| `PUT` | `/api/suppliers/:id` | Update a supplier | ❌ | Admin/Manager |
+| `DELETE` | `/api/suppliers/:id` | Delete a supplier | ❌ | Admin |
 
 #### Create Supplier
 
@@ -385,10 +407,10 @@ Content-Type: application/json
 
 ### Stock Management
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `POST` | `/api/stock/in` | Add stock (increase quantity) | ❌ |
-| `POST` | `/api/stock/out` | Remove stock (decrease quantity) | ❌ |
+| Method | Endpoint | Description | Auth Required | Role Required |
+|---|---|---|---|---|
+| `POST` | `/api/stock/in` | Add stock (increase quantity) | ❌ | All Roles |
+| `POST` | `/api/stock/out` | Remove stock (decrease quantity) | ❌ | Admin/Manager |
 
 #### Stock In
 
@@ -468,9 +490,9 @@ Content-Type: application/json
 
 ### Alerts
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/api/alerts/low-stock` | Get low stock product alerts | ✅ JWT Token |
+| Method | Endpoint | Description | Auth Required | Role Required |
+|---|---|---|---|---|
+| `GET` | `/api/alerts/low-stock` | Get low stock product alerts | ✅ JWT Token | All Roles |
 
 **Headers Required:**
 ```
@@ -550,14 +572,54 @@ Authorization: Bearer <your_jwt_token>
 - Hashing happens automatically via Mongoose `pre("save")` hook
 - Plain-text passwords are never stored in the database
 
-### Role-Based Access
+### Role-Based Access Control (RBAC)
 
-The User model supports three roles:
-- `admin` — Full system access
-- `manager` — Management operations
-- `staff` — Basic operations (default)
+**Three-Tier Role System:**
+- **Admin** — Full system access (create, edit, delete all resources)
+- **Manager** — Management operations (create, edit products/suppliers, stock out, transactions)
+- **Staff** — Basic operations (view products/suppliers, stock in only)
 
-> Currently role-based restrictions are not enforced on specific routes. The infrastructure is in place for future implementation.
+**Frontend Implementation:**
+- Role-based button visibility (Add Product, Edit, Delete, Stock Out, New Transaction)
+- Sidebar navigation filtering based on user role
+- Role badge display in header with color coding
+- Protected routes with RequireRole component
+- Users management page (Admin only)
+
+**Backend Implementation:**
+- Role included in JWT token
+- Authorization middleware on protected endpoints
+- Granular permission checks on CRUD operations
+- User management endpoints (Admin only)
+
+### Session Timeout & Warning System
+
+- **15-minute idle timeout** — Automatic logout after 15 minutes of inactivity
+- **2-minute warning modal** — User receives warning at 13-minute mark
+- **Countdown timer** — Visual countdown display in warning modal
+- **Stay Logged In button** — Extends session by another 15 minutes
+- **Smooth animations** — Pulsing alert icon and color-coded countdown
+- **Activity tracking** — Resets timeout on user interactions (clicks, keyboard input)
+- **Idle logout message** — Displays message on login page when session expires
+
+### Trend Analysis Dashboard
+
+- **Multiple chart types** — Line, Bar, and Area charts for flexible visualization
+- **Date range filtering** — Quick filters (7/30/90 days) + custom date range picker
+- **CSV export** — Download trend data with proper date formatting (dates wrapped in quotes)
+- **Interactive tooltips** — Hover to view detailed data points
+- **Loading & empty states** — Professional UI for data loading and no-data scenarios
+- **Stock distribution chart** — Visual breakdown of inventory by product
+- **Responsive layout** — Side-by-side grid layout on desktop, stacked on mobile
+
+### Auto-Dismissing Messages
+
+- **3-second auto-dismiss** — Status messages automatically disappear after 3 seconds
+- **Smooth animations** — Slide-down entrance (0.3s), slide-up exit (0.3s at 2.7s mark)
+- **Message types** — Success (green), Error (red), Warning (orange) variants
+- **Better visibility** — Enhanced styling with borders, padding, and color coding
+- **All pages covered** — Inventory, Suppliers, Dashboard, Transactions pages
+- **CSS keyframe animations** — Smooth slideDown and slideUp transitions
 
 ---
 
@@ -638,9 +700,22 @@ Connect to `mongodb://localhost:27017` in Compass to visually inspect:
 - `inventory.suppliers` — Supplier directory
 - `inventory.transactions` — Stock movement history
 
----
+## 🚀 Deployment
 
-## 🤝 Contributing
+For complete deployment instructions, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+
+**Quick Deployment Stack:**
+- **Backend:** Render, Railway, or Heroku
+- **Frontend:** Vercel or Netlify
+- **Database:** MongoDB Atlas (Cloud)
+- **Version Control:** GitHub
+
+**Recommended Setup:**
+- Backend: Render (Free tier available)
+- Frontend: Vercel (Free tier available)
+- Database: MongoDB Atlas (Free tier - 512MB)
+
+---
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)

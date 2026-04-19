@@ -90,7 +90,7 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <section className="product-detail-page">
+      <section className="product-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -111,7 +111,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <section className="product-detail-page">
+      <section className="product-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -132,7 +132,7 @@ export default function ProductDetail() {
   const stockOutCount = transactions.filter(t => t.type === "OUT").length;
 
   return (
-    <section className="product-detail-page">
+    <section className="product-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
       {/* Back Button */}
       <motion.button
         type="button"

@@ -14,6 +14,12 @@ export default function Suppliers() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUserRole(user?.role || "staff");
+  }, []);
 
   const loadSuppliers = async () => {
     setLoading(true);
@@ -52,6 +58,7 @@ export default function Suppliers() {
       selectedSupplier ? "Supplier updated successfully." : "Supplier created successfully."
     );
     loadSuppliers();
+    setTimeout(() => setStatusMessage(""), 3000);
   };
 
   const openDeleteModal = (supplier) => {
@@ -65,6 +72,7 @@ export default function Suppliers() {
       setStatusMessage("Supplier deleted successfully.");
       setSelectedSupplier(null);
       loadSuppliers();
+      setTimeout(() => setStatusMessage(""), 3000);
     }
   };
 
@@ -93,7 +101,7 @@ export default function Suppliers() {
   };
 
   return (
-    <section className="suppliers-page">
+    <section className="suppliers-page" style={{ width: '100%', maxWidth: '100%' }}>
       <motion.div
         className="inventory-header"
         initial={{ opacity: 0, y: -20 }}
@@ -107,16 +115,18 @@ export default function Suppliers() {
           </h2>
           <p>Manage your supplier relationships and contact information</p>
         </div>
-        <motion.button
-          type="button"
-          className="button button-primary"
-          onClick={() => openModal()}
-          whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Plus size={16} style={{ marginRight: '8px' }} />
-          Add Supplier
-        </motion.button>
+        {userRole && ["admin", "manager"].includes(userRole) && (
+          <motion.button
+            type="button"
+            className="button button-primary"
+            onClick={() => openModal()}
+            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(79, 70, 229, 0.3)" }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Plus size={16} style={{ marginRight: '8px' }} />
+            Add Supplier
+          </motion.button>
+        )}
       </motion.div>
 
       <motion.div
@@ -226,16 +236,18 @@ export default function Suppliers() {
                     >
                       <Edit2 size={16} />
                     </motion.button>
-                    <motion.button
-                      type="button"
-                      className="button button-icon button-danger"
-                      title="Delete"
-                      onClick={() => openDeleteModal(supplier)}
-                      whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Trash2 size={16} />
-                    </motion.button>
+                    {userRole === "admin" && (
+                      <motion.button
+                        type="button"
+                        className="button button-icon button-danger"
+                        title="Delete"
+                        onClick={() => openDeleteModal(supplier)}
+                        whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Trash2 size={16} />
+                      </motion.button>
+                    )}
                   </td>
                 </motion.tr>
               ))

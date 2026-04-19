@@ -81,7 +81,7 @@ export default function SupplierDetail() {
 
   if (loading) {
     return (
-      <section className="supplier-detail-page">
+      <section className="supplier-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -102,7 +102,7 @@ export default function SupplierDetail() {
 
   if (!supplier) {
     return (
-      <section className="supplier-detail-page">
+      <section className="supplier-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -120,7 +120,7 @@ export default function SupplierDetail() {
   const lowStockProducts = products.filter(p => p.quantity < p.minStock).length;
 
   return (
-    <section className="supplier-detail-page">
+    <section className="supplier-detail-page" style={{ width: '100%', maxWidth: '100%' }}>
       {/* Back Button */}
       <motion.button
         type="button"
