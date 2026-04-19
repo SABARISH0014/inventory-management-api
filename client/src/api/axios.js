@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "inventory-management-api-production-d93e.up.railway.app/api",
+  baseURL: "https://inventory-management-api-production-d93e.up.railway.app/api",
   headers: {
     "Content-Type": "application/json",
   },
