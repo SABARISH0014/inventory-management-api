@@ -7,113 +7,107 @@
 ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
-A robust, full-stack RESTful API and sleek Web Dashboard for managing inventory, tracking suppliers, monitoring stock movements, and generating dynamic business reports. 
-Built with a highly scalable **Node.js/Express** backend and a beautifully minimalist **React/Vite** frontend customized with **Tailwind CSS**.
+A production-ready, full-stack inventory management system with a powerful RESTful API backend and a modern, responsive web dashboard. Manage products, suppliers, stock movements, and generate comprehensive business reports with real-time analytics.
+
+Built with **React/Vite** frontend, **Node.js/Express** backend, and **MongoDB Atlas** cloud database.
 
 ---
 
-## 📑 Table of Contents
+## 🎯 Live Demo
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Running the Server](#running-the-server)
-- [API Endpoints](#-api-endpoints)
-  - [Authentication](#authentication)
-  - [Products](#products)
-  - [Suppliers](#suppliers)
-  - [Stock Management](#stock-management)
-  - [Transactions](#transactions)
-  - [Reports](#reports)
-  - [Alerts](#alerts)
-- [Data Models](#-data-models)
-- [Authentication & Security](#-authentication--security)
-- [Error Handling](#-error-handling)
-- [Testing the API](#-testing-the-api)
-- [Contributing](#-contributing)
-- [License](#-license)
+- **Frontend:** [https://inventory-dashboard.vercel.app](https://inventory-dashboard.vercel.app)
+- **Backend API:** [https://inventory-api-production.up.railway.app](https://inventory-api-production.up.railway.app)
+
+**Test Credentials:**
+```
+Email: admin@test.com
+Password: password123
+Role: Admin
+```
 
 ---
 
 ## ✨ Features
 
-- **Modern & Minimalist UI** — A clean, responsive dashboard crafted with React and Tailwind CSS for an intuitive user experience.
-- **Product Management** — Full CRUD operations with SKU-based uniqueness and effortless supplier linking.
-- **Supplier Management** — Create, view, edit, and delete comprehensive supplier records.
-- **Dynamic Stock In/Out** — Seamless stock movement tracking using global modals and instant quantity recalculations.
-- **Transaction Logging** — Automatic end-to-end historical logging of every stock movement with timestamps.
-- **Proactive Low Stock Alerts** — Automated notifications when any product's quantity falls below its preset minimum threshold.
-- **Business Intelligence Reports** — Real-time inventory summaries, total financial value calculations, and comprehensive transaction logs.
-- **JWT Robust Authentication** — Secure user signup/login, token-based session management, and role-based access architectures.
-- **Role-Based Access Control (RBAC)** — Three-tier role system (Admin, Manager, Staff) with granular permissions on both backend and frontend.
-- **Session Timeout Management** — 15-minute idle timeout with 2-minute warning modal and "Stay Logged In" option.
-- **Trend Analysis Dashboard** — Advanced visualization with multiple chart types (Line, Bar, Area), date range filtering, and CSV export.
-- **Auto-Dismissing Messages** — Status messages automatically disappear after 3 seconds with smooth animations.
-- **Security & Validation** — Request payloads strongly validated utilizing `express-validator`.
-- **Global Error Handling** — Centralized middleware intercepts and unifies API error responses seamlessly.
-- **Request Logging** — HTTP request tracking via Morgan for streamlined debugging.
-- **MongoDB Atlas Integration** — Cloud-based database with automatic backups and high availability.
+### Core Functionality
+- **Product Management** — Full CRUD operations with SKU-based uniqueness and supplier linking
+- **Supplier Management** — Create, view, edit, and delete comprehensive supplier records
+- **Dynamic Stock Management** — Seamless stock in/out tracking with instant quantity recalculations
+- **Transaction Logging** — Automatic historical logging of every stock movement with timestamps
+- **Proactive Low Stock Alerts** — Automated notifications when products fall below minimum threshold
+
+### Advanced Features
+- **Business Intelligence Reports** — Real-time inventory summaries, financial value calculations, and transaction logs
+- **Trend Analysis Dashboard** — Multiple chart types (Line, Bar, Area), date range filtering, and CSV export
+- **Role-Based Access Control (RBAC)** — Three-tier role system (Admin, Manager, Staff) with granular permissions
+- **Session Timeout Management** — 15-minute idle timeout with 2-minute warning modal and "Stay Logged In" option
+- **Auto-Dismissing Messages** — Status messages automatically disappear after 3 seconds with smooth animations
+
+### Security & Performance
+- **JWT Authentication** — Secure token-based session management with 1-day expiration
+- **Password Hashing** — bcryptjs with salt factor of 10 for maximum security
+- **Request Validation** — express-validator for comprehensive input validation
+- **Global Error Handling** — Centralized middleware for consistent error responses
+- **CORS Protection** — Configured for secure cross-origin requests
+- **MongoDB Atlas** — Cloud-based database with automatic backups and high availability
+
+### UI/UX Excellence
+- **Modern & Minimalist Design** — Clean, responsive dashboard with intuitive navigation
+- **Smooth Animations** — Framer Motion for professional transitions and interactions
+- **Responsive Layout** — Mobile-first design that works on all devices
+- **Dark Mode Ready** — CSS variables for easy theme customization
+- **Accessibility** — Semantic HTML and ARIA labels for screen readers
 
 ---
 
 ## 🛠 Tech Stack
 
-| Technology | Purpose | Version |
-|---|---|---|
-| **React + Vite** | Frontend Framework | v18 / v6 |
-| **Tailwind CSS** | Styling & UI | v3.4 |
-| **Axios** | HTTP Client | v1.7 |
-| **Node.js** | Runtime environment | v24+ |
-| **Express** | Web framework | v5.2 |
-| **MongoDB** | NoSQL database | v8.2 |
-| **Mongoose** | MongoDB ODM | v9.4 |
-| **JSON Web Token**| Authentication | v9.0 |
-| **bcryptjs** | Password hashing | v3.0 |
-| **Framer Motion** | Animations & Transitions | v10.16 |
-| **Recharts** | Data Visualization | v2.10 |
-| **Lucide React** | Icon Library | v0.263 |
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| **Frontend** | React + Vite | 18 / 6 | UI framework & build tool |
+| **Styling** | Tailwind CSS | 3.4 | Utility-first CSS framework |
+| **HTTP Client** | Axios | 1.7 | API communication |
+| **Animations** | Framer Motion | 10.16 | Smooth transitions |
+| **Charts** | Recharts | 2.10 | Data visualization |
+| **Icons** | Lucide React | 0.263 | Icon library |
+| **Backend** | Node.js + Express | 24+ / 5.2 | Server runtime & framework |
+| **Database** | MongoDB + Mongoose | 8.2 / 9.4 | NoSQL database & ODM |
+| **Authentication** | JWT + bcryptjs | 9.0 / 3.0 | Token auth & password hashing |
+| **Validation** | express-validator | 7.0 | Request validation |
+| **Logging** | Morgan | 1.10 | HTTP request logging |
+| **Environment** | dotenv | 16.0 | Environment variable management |
 
 ---
 
 ## 🏗 Architecture
 
-The API follows a **layered architecture** pattern with clear separation of concerns:
+The system follows a **layered architecture** pattern with clear separation of concerns:
 
 ```
 Client Request
     │
     ▼
-┌──────────┐
-│  Routes   │  ← Defines endpoints & maps to controllers
-└──────────┘
+┌──────────────────────────────────────────┐
+│  Frontend (React/Vite)                   │
+│  - Pages, Components, API Client         │
+└──────────────────────────────────────────┘
     │
-    ▼
-┌──────────────┐
-│  Middleware   │  ← Auth verification, validation, error handling
-└──────────────┘
+    ▼ (HTTP/REST)
+┌──────────────────────────────────────────┐
+│  Backend (Express.js)                    │
+│  ├─ Routes (API endpoints)               │
+│  ├─ Middleware (Auth, Validation, CORS)  │
+│  ├─ Controllers (Request handlers)       │
+│  ├─ Services (Business logic)            │
+│  └─ Models (Mongoose schemas)            │
+└──────────────────────────────────────────┘
     │
-    ▼
-┌──────────────┐
-│  Controllers  │  ← Handles HTTP req/res, delegates to services
-└──────────────┘
-    │
-    ▼
-┌──────────────┐
-│   Services    │  ← Business logic & data operations
-└──────────────┘
-    │
-    ▼
-┌──────────────┐
-│   Models      │  ← Mongoose schemas & database interaction
-└──────────────┘
-    │
-    ▼
-  MongoDB
+    ▼ (MongoDB Protocol)
+┌──────────────────────────────────────────┐
+│  MongoDB Atlas (Cloud Database)          │
+│  - Users, Products, Suppliers            │
+│  - Transactions, Inventory Data          │
+└──────────────────────────────────────────┘
 ```
 
 ---
@@ -121,66 +115,95 @@ Client Request
 ## 📁 Project Structure
 
 ```
-ECFS_Hackathon/
-├── client/                      # frontend React + Vite UI
-│   ├── src/                     
-│   │   ├── api/                 # Axios configuration
-│   │   ├── components/          # Reusable JSX components
-│   │   └── pages/               # React Route views (Login, Dashboard, Inventory)
+inventory-management-api/
+│
+├── client/                          # React + Vite Frontend
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── axios.js             # Axios instance with interceptors
+│   │   ├── components/
+│   │   │   ├── SessionTimeoutModal.jsx
+│   │   │   ├── TrendAnalysis.jsx
+│   │   │   ├── StockModal.jsx
+│   │   │   ├── ProductModal.jsx
+│   │   │   ├── DeleteConfirmModal.jsx
+│   │   │   └── TransactionModal.jsx
+│   │   ├── pages/
+│   │   │   ├── Home.jsx             # Landing page
+│   │   │   ├── Login.jsx            # Authentication
+│   │   │   ├── Register.jsx         # User registration
+│   │   │   ├── Dashboard.jsx        # Main dashboard with metrics
+│   │   │   ├── Inventory.jsx        # Product management
+│   │   │   ├── Suppliers.jsx        # Supplier management
+│   │   │   ├── Transactions.jsx     # Transaction history
+│   │   │   ├── Alerts.jsx           # Low stock alerts
+│   │   │   ├── ProductDetail.jsx    # Product detail page
+│   │   │   ├── SupplierDetail.jsx   # Supplier detail page
+│   │   │   └── Users.jsx            # User management (Admin only)
+│   │   ├── App.jsx                  # Main app with routing & session timeout
+│   │   ├── App.css                  # Global styles & animations
+│   │   └── main.jsx                 # Entry point
 │   ├── index.html
 │   ├── package.json
-│   └── vite.config.js
+│   ├── vite.config.js
+│   └── .env.production              # Production environment variables
 │
-└── backend/                     # backend Node.js + Express API
-    ├── server.js                # Entry point
-    ├── .env                     # Environment variables
-    ├── package.json             
-    └── src/
-        ├── app.js               # Express configurations
+└── backend/                         # Node.js + Express API
+    ├── server.js                    # Entry point
+    ├── .env                         # Environment variables
+    ├── package.json
     │
-    ├── config/
-    │   └── db.js                # MongoDB connection logic
+    ├── src/
+    │   ├── app.js                   # Express app configuration
+    │   │
+    │   ├── config/
+    │   │   └── db.js                # MongoDB connection
+    │   │
+    │   ├── models/
+    │   │   ├── User.js              # User schema with role & password hashing
+    │   │   ├── Product.js           # Product schema with SKU & supplier ref
+    │   │   ├── Supplier.js          # Supplier schema
+    │   │   └── Transaction.js       # Transaction schema for stock movements
+    │   │
+    │   ├── controllers/
+    │   │   ├── authController.js    # Register & login handlers
+    │   │   ├── userController.js    # User management (Admin only)
+    │   │   ├── productController.js # Product CRUD handlers
+    │   │   ├── supplierController.js# Supplier CRUD handlers
+    │   │   ├── stockController.js   # Stock in/out handlers
+    │   │   ├── transactionController.js # Transaction handlers
+    │   │   ├── reportController.js  # Report generation
+    │   │   └── alertController.js   # Low stock alert handler
+    │   │
+    │   ├── services/
+    │   │   ├── authService.js       # Auth business logic
+    │   │   ├── productService.js    # Product operations
+    │   │   ├── supplierService.js   # Supplier operations
+    │   │   ├── alertService.js      # Low stock detection
+    │   │   └── reportService.js     # Report aggregation
+    │   │
+    │   ├── routes/
+    │   │   ├── authRoutes.js        # /api/auth endpoints
+    │   │   ├── userRoutes.js        # /api/users endpoints (Admin)
+    │   │   ├── productRoutes.js     # /api/products endpoints
+    │   │   ├── supplierRoutes.js    # /api/suppliers endpoints
+    │   │   ├── stockRoutes.js       # /api/stock endpoints
+    │   │   ├── transactionRoutes.js # /api/transactions endpoints
+    │   │   ├── reportRoutes.js      # /api/reports endpoints
+    │   │   └── alertRoutes.js       # /api/alerts endpoints
+    │   │
+    │   ├── middlewares/
+    │   │   ├── authMiddleware.js    # JWT verification
+    │   │   ├── authorizeMiddleware.js # Role-based authorization
+    │   │   ├── errorMiddleware.js   # Global error handler
+    │   │   └── validateMiddleware.js# Request validation wrapper
+    │   │
+    │   └── utils/
+    │       ├── validators.js        # express-validator rules
+    │       ├── constants.js         # Status codes & messages
+    │       └── helpers.js           # Response helpers
     │
-    ├── models/
-    │   ├── User.js              # User schema (auth, roles, password hashing)
-    │   ├── Product.js           # Product schema (name, SKU, price, quantity)
-    │   ├── Supplier.js          # Supplier schema (name, email, phone, address)
-    │   └── Transaction.js       # Transaction schema (stock in/out logs)
-    │
-    ├── controllers/
-    │   ├── authController.js    # Register & login handlers
-    │   ├── productController.js # Product CRUD handlers
-    │   ├── supplierController.js# Supplier CRUD handlers
-    │   ├── stockController.js   # Stock in/out handlers
-    │   ├── transactionController.js # Transaction & alert handlers
-    │   ├── reportController.js  # Report generation handlers
-    │   └── alertController.js   # Low stock alert handler
-    │
-    ├── services/
-    │   ├── authService.js       # Auth business logic (JWT signing, user creation)
-    │   ├── productService.js    # Product CRUD operations
-    │   ├── supplierService.js   # Supplier CRUD operations
-    │   ├── alertService.js      # Low stock detection logic
-    │   └── reportService.js     # Report aggregation logic
-    │
-    ├── routes/
-    │   ├── authRoutes.js        # POST /register, /login
-    │   ├── productRoutes.js     # CRUD /api/products
-    │   ├── supplierRoutes.js    # CRUD /api/suppliers
-    │   ├── stockRoutes.js       # POST /api/stock/in, /out
-    │   ├── transactionRoutes.js # GET transactions, alerts
-    │   ├── reportRoutes.js      # GET reports
-    │   └── alertRoutes.js       # GET low-stock alerts (protected)
-    │
-    ├── middlewares/
-    │   ├── authMiddleware.js    # JWT token verification
-    │   ├── errorMiddleware.js   # Global error handler
-    │   └── validateMiddleware.js# Request body validation wrapper
-    │
-    └── utils/
-        ├── validators.js        # Express-validator rules for products
-        ├── constants.js         # Status codes & message constants
-        └── helpers.js           # Response helpers & async handler
+    └── .gitignore
 ```
 
 ---
@@ -190,77 +213,87 @@ ECFS_Hackathon/
 ### Prerequisites
 
 - **Node.js** v18 or higher — [Download](https://nodejs.org/)
-- **MongoDB** v6 or higher — [Download](https://www.mongodb.com/try/download/community)
-- **MongoDB Compass** (optional, for visual DB management) — [Download](https://www.mongodb.com/products/compass)
+- **MongoDB Atlas** account — [Sign up](https://www.mongodb.com/cloud/atlas)
+- **Git** for version control — [Download](https://git-scm.com/)
 
 ### Installation
 
+#### 1. Clone the Repository
+
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/ECFS_Hackathon.git
+git clone https://github.com/your-username/inventory-management-api.git
+cd inventory-management-api
+```
 
-# Navigate to the project directory
-cd ECFS_Hackathon
+#### 2. Set Up Backend
 
-# Install dependencies
+```bash
+cd backend
 npm install
 ```
 
-### Environment Variables
-
-Create a `.env` file in the backend directory:
+Create `.env` file in backend directory:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/inventory?retryWrites=true&w=majority
-JWT_SECRET=your_secret_key_here
-NODE_ENV=production
+MONGO_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/inventory?retryWrites=true&w=majority
+JWT_SECRET=your_super_secret_key_here_min_32_chars
+NODE_ENV=development
 ```
 
-**For MongoDB Atlas:**
-- Replace `<username>` with your database user
-- Replace `<password>` with your database password
-- Replace `cluster0.xxxxx` with your actual cluster name
+**MongoDB Atlas Setup:**
+- Create a cluster at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+- Create a database user with read/write permissions
+- Get your connection string and replace `<username>`, `<password>`, and cluster name
 - Database name: `inventory`
 
-**For Frontend (Vercel/Netlify):**
-```env
-VITE_API_URL=https://your-backend-url.com
+#### 3. Set Up Frontend
+
+```bash
+cd ../client
+npm install
 ```
 
-### Running the Servers
+Create `.env.production` file in client directory:
 
-Because this is a dual-repo structure, you must launch the backend API and the frontend dashboard strictly in parallel.
+```env
+VITE_API_URL=http://localhost:5000
+```
 
-**1. Run the Backend:**
+For production, replace with your deployed backend URL.
+
+#### 4. Run Development Servers
+
+**Terminal 1 - Backend:**
 ```bash
 cd backend
 npm run dev
 ```
 
-**2. Run the Frontend:**
+Backend runs on: `http://localhost:5000`
+
+**Terminal 2 - Frontend:**
 ```bash
 cd client
 npm run dev
 ```
 
-Verify by opening: [http://localhost:5173](http://localhost:5173) in your browser!
+Frontend runs on: `http://localhost:5173`
 
 ---
 
 ## 📡 API Endpoints
 
-Base URL: `http://localhost:5000`
+Base URL: `http://localhost:5000/api`
 
 ### Authentication
 
 | Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `POST` | `/api/auth/register` | Register a new user | ❌ |
-| `POST` | `/api/auth/login` | Login & get JWT token | ❌ |
+|--------|----------|-------------|---|
+| `POST` | `/auth/register` | Register new user | ❌ |
+| `POST` | `/auth/login` | Login & get JWT token | ❌ |
 
 #### Register
-
 ```http
 POST /api/auth/register
 Content-Type: application/json
@@ -288,7 +321,6 @@ Content-Type: application/json
 ```
 
 #### Login
-
 ```http
 POST /api/auth/login
 Content-Type: application/json
@@ -317,16 +349,15 @@ Content-Type: application/json
 
 ### Products
 
-| Method | Endpoint | Description | Auth Required | Role Required |
-|---|---|---|---|---|
-| `POST` | `/api/products` | Create a product | ❌ | Admin/Manager |
-| `GET` | `/api/products` | Get all products | ❌ | — |
-| `GET` | `/api/products/:id` | Get product by ID | ❌ | — |
-| `PUT` | `/api/products/:id` | Update a product | ❌ | Admin/Manager |
-| `DELETE` | `/api/products/:id` | Delete a product | ❌ | Admin |
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| `POST` | `/products` | Create product | ❌ | Admin/Manager |
+| `GET` | `/products` | Get all products | ❌ | — |
+| `GET` | `/products/:id` | Get product by ID | ❌ | — |
+| `PUT` | `/products/:id` | Update product | ❌ | Admin/Manager |
+| `DELETE` | `/products/:id` | Delete product | ❌ | Admin |
 
 #### Create Product
-
 ```http
 POST /api/products
 Content-Type: application/json
@@ -341,42 +372,26 @@ Content-Type: application/json
 }
 ```
 
-**Validation Rules:**
+**Validation:**
 - `name` — Required, non-empty
 - `sku` — Required, unique
 - `price` — Required, must be ≥ 0
 - `minStock` — Required, must be ≥ 0
-- `supplierId` — Required, must be a valid Supplier ObjectId
-
-#### Update Product
-
-```http
-PUT /api/products/:id
-Content-Type: application/json
-
-{
-  "name": "Wireless Mouse Pro",
-  "price": 699,
-  "minStock": 15
-}
-```
-
-**Response (200):** Returns the updated product.
+- `supplierId` — Required, valid ObjectId
 
 ---
 
 ### Suppliers
 
-| Method | Endpoint | Description | Auth Required | Role Required |
-|---|---|---|---|---|
-| `POST` | `/api/suppliers` | Create a supplier | ❌ | Admin/Manager |
-| `GET` | `/api/suppliers` | Get all suppliers | ❌ | — |
-| `GET` | `/api/suppliers/:id` | Get supplier by ID | ❌ | — |
-| `PUT` | `/api/suppliers/:id` | Update a supplier | ❌ | Admin/Manager |
-| `DELETE` | `/api/suppliers/:id` | Delete a supplier | ❌ | Admin |
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| `POST` | `/suppliers` | Create supplier | ❌ | Admin/Manager |
+| `GET` | `/suppliers` | Get all suppliers | ❌ | — |
+| `GET` | `/suppliers/:id` | Get supplier by ID | ❌ | — |
+| `PUT` | `/suppliers/:id` | Update supplier | ❌ | Admin/Manager |
+| `DELETE` | `/suppliers/:id` | Delete supplier | ❌ | Admin |
 
 #### Create Supplier
-
 ```http
 POST /api/suppliers
 Content-Type: application/json
@@ -389,31 +404,16 @@ Content-Type: application/json
 }
 ```
 
-#### Update Supplier
-
-```http
-PUT /api/suppliers/:id
-Content-Type: application/json
-
-{
-  "phone": "9998887776",
-  "address": "Bangalore, India"
-}
-```
-
-**Response (200):** Returns the updated supplier.
-
 ---
 
 ### Stock Management
 
-| Method | Endpoint | Description | Auth Required | Role Required |
-|---|---|---|---|---|
-| `POST` | `/api/stock/in` | Add stock (increase quantity) | ❌ | All Roles |
-| `POST` | `/api/stock/out` | Remove stock (decrease quantity) | ❌ | Admin/Manager |
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| `POST` | `/stock/in` | Add stock | ❌ | All Roles |
+| `POST` | `/stock/out` | Remove stock | ❌ | Admin/Manager |
 
 #### Stock In
-
 ```http
 POST /api/stock/in
 Content-Type: application/json
@@ -424,10 +424,9 @@ Content-Type: application/json
 }
 ```
 
-**Response (200):** Returns updated product with new quantity.
+**Response (200):** Updated product with new quantity
 
 #### Stock Out
-
 ```http
 POST /api/stock/out
 Content-Type: application/json
@@ -438,37 +437,30 @@ Content-Type: application/json
 }
 ```
 
-**Response (200):** Returns updated product. Includes `warning: "Stocks are low"` if quantity drops below `minStock`.
-
-**Error Cases:**
-- `400` — Insufficient stock (trying to remove more than available)
-- `400` — Product not found
+**Response (200):** Updated product. Includes warning if quantity drops below minStock.
 
 ---
 
 ### Transactions
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/api/transactions/:productId` | Get transactions for a product | ❌ |
-| `POST` | `/api/transactions` | Create a transaction manually | ❌ |
-| `GET` | `/api/transactions/alerts/low-stock` | Get low stock alerts | ❌ |
-
-> **Note:** Transactions are also created automatically when using the Stock In/Out endpoints.
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/transactions/:productId` | Get product transactions | ❌ |
+| `POST` | `/transactions` | Create transaction | ❌ |
+| `GET` | `/transactions/alerts/low-stock` | Get low stock alerts | ❌ |
 
 ---
 
 ### Reports
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/api/reports/summary` | Total products & total quantity | ❌ |
-| `GET` | `/api/reports/low-stock` | Products below minimum stock | ❌ |
-| `GET` | `/api/reports/total-value` | Total inventory value (price × qty) | ❌ |
-| `GET` | `/api/reports/transactions` | Full transaction history | ❌ |
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| `GET` | `/reports/summary` | Inventory summary | ❌ |
+| `GET` | `/reports/low-stock` | Low stock products | ❌ |
+| `GET` | `/reports/total-value` | Total inventory value | ❌ |
+| `GET` | `/reports/transactions` | Transaction history | ❌ |
 
-#### Inventory Summary Response (`/api/reports/summary`)
-
+#### Inventory Summary Response
 ```json
 {
   "totalProducts": 15,
@@ -478,21 +470,13 @@ Content-Type: application/json
 }
 ```
 
-#### Total Inventory Value Response
-
-```json
-{
-  "totalValue": 125000
-}
-```
-
 ---
 
 ### Alerts
 
-| Method | Endpoint | Description | Auth Required | Role Required |
-|---|---|---|---|---|
-| `GET` | `/api/alerts/low-stock` | Get low stock product alerts | ✅ JWT Token | All Roles |
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| `GET` | `/alerts/low-stock` | Get low stock alerts | ✅ JWT | All Roles |
 
 **Headers Required:**
 ```
@@ -501,65 +485,88 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 
 ---
 
+### Users (Admin Only)
+
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| `GET` | `/users` | Get all users | ✅ JWT | Admin |
+| `POST` | `/users` | Create user | ✅ JWT | Admin |
+| `PUT` | `/users/:id` | Update user role | ✅ JWT | Admin |
+| `DELETE` | `/users/:id` | Delete user | ✅ JWT | Admin |
+
+---
+
 ## 📊 Data Models
 
 ### User
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `name` | String | ✅ | User's full name |
-| `email` | String | ✅ | Unique, lowercase |
-| `password` | String | ✅ | Min 6 chars, auto-hashed via bcrypt |
-| `role` | String | ❌ | `admin`, `manager`, or `staff` (default: `staff`) |
-| `createdAt` | Date | Auto | Timestamp |
-| `updatedAt` | Date | Auto | Timestamp |
+```javascript
+{
+  name: String (required),
+  email: String (required, unique, lowercase),
+  password: String (required, min 6 chars, auto-hashed),
+  role: String (admin, manager, staff - default: staff),
+  createdAt: Date (auto),
+  updatedAt: Date (auto)
+}
+```
 
 ### Product
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `name` | String | ✅ | Product name |
-| `sku` | String | ✅ | Unique stock keeping unit |
-| `price` | Number | ✅ | Must be ≥ 0 |
-| `quantity` | Number | ❌ | Current stock (default: 0) |
-| `minStock` | Number | ✅ | Low stock threshold |
-| `supplierId` | ObjectId | ✅ | Reference to Supplier |
-| `createdAt` | Date | Auto | Timestamp |
-| `updatedAt` | Date | Auto | Timestamp |
+```javascript
+{
+  name: String (required),
+  sku: String (required, unique),
+  price: Number (required, ≥ 0),
+  quantity: Number (default: 0),
+  minStock: Number (required, ≥ 0),
+  supplierId: ObjectId (required, ref: Supplier),
+  createdAt: Date (auto),
+  updatedAt: Date (auto)
+}
+```
 
 ### Supplier
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `name` | String | ✅ | Supplier company name |
-| `email` | String | ✅ | Unique email address |
-| `phone` | String | ✅ | Contact number |
-| `address` | String | ✅ | Physical address |
-| `createdAt` | Date | Auto | Timestamp |
-| `updatedAt` | Date | Auto | Timestamp |
+```javascript
+{
+  name: String (required),
+  email: String (required, unique),
+  phone: String (required),
+  address: String (required),
+  createdAt: Date (auto),
+  updatedAt: Date (auto)
+}
+```
 
 ### Transaction
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `productID` | ObjectId | ✅ | Reference to Product |
-| `type` | String | ✅ | `"IN"` or `"OUT"` |
-| `quantity` | Number | ✅ | Quantity moved |
-| `date` | Date | Auto | Defaults to `Date.now` |
+```javascript
+{
+  productID: ObjectId (required, ref: Product),
+  type: String (IN or OUT, required),
+  quantity: Number (required),
+  date: Date (default: now)
+}
+```
 
 ---
 
 ## 🔐 Authentication & Security
 
-### JWT Flow
+### JWT Authentication Flow
 
 ```
-1. POST /api/auth/register  →  Creates user (password auto-hashed)
-2. POST /api/auth/login     →  Returns JWT token (valid for 1 day)
-3. GET  /api/alerts/low-stock  →  Send token in Authorization header
+1. User registers/logs in
+   ↓
+2. Backend validates credentials
+   ↓
+3. Backend generates JWT token (valid 1 day)
+   ↓
+4. Frontend stores token in localStorage
+   ↓
+5. Frontend sends token in Authorization header for protected routes
+   ↓
+6. Backend verifies token and processes request
 ```
 
-### How to use the token
+### How to Use Token
 
 Add to request headers:
 ```
@@ -568,19 +575,22 @@ Authorization: Bearer <your_jwt_token>
 
 ### Password Security
 
-- Passwords are hashed using **bcrypt** with a salt factor of 10
+- Passwords hashed using **bcryptjs** with salt factor of 10
 - Hashing happens automatically via Mongoose `pre("save")` hook
-- Plain-text passwords are never stored in the database
+- Plain-text passwords never stored in database
 
 ### Role-Based Access Control (RBAC)
 
 **Three-Tier Role System:**
-- **Admin** — Full system access (create, edit, delete all resources)
-- **Manager** — Management operations (create, edit products/suppliers, stock out, transactions)
-- **Staff** — Basic operations (view products/suppliers, stock in only)
+
+| Role | Permissions |
+|------|-------------|
+| **Admin** | Full system access - create, edit, delete all resources, manage users |
+| **Manager** | Management operations - create/edit products & suppliers, stock out, transactions |
+| **Staff** | Basic operations - view products & suppliers, stock in only |
 
 **Frontend Implementation:**
-- Role-based button visibility (Add Product, Edit, Delete, Stock Out, New Transaction)
+- Role-based button visibility (Add Product, Edit, Delete, Stock Out)
 - Sidebar navigation filtering based on user role
 - Role badge display in header with color coding
 - Protected routes with RequireRole component
@@ -592,7 +602,9 @@ Authorization: Bearer <your_jwt_token>
 - Granular permission checks on CRUD operations
 - User management endpoints (Admin only)
 
-### Session Timeout & Warning System
+---
+
+## ⏱ Session Timeout & Warning System
 
 - **15-minute idle timeout** — Automatic logout after 15 minutes of inactivity
 - **2-minute warning modal** — User receives warning at 13-minute mark
@@ -602,7 +614,9 @@ Authorization: Bearer <your_jwt_token>
 - **Activity tracking** — Resets timeout on user interactions (clicks, keyboard input)
 - **Idle logout message** — Displays message on login page when session expires
 
-### Trend Analysis Dashboard
+---
+
+## 📈 Trend Analysis Dashboard
 
 - **Multiple chart types** — Line, Bar, and Area charts for flexible visualization
 - **Date range filtering** — Quick filters (7/30/90 days) + custom date range picker
@@ -612,7 +626,9 @@ Authorization: Bearer <your_jwt_token>
 - **Stock distribution chart** — Visual breakdown of inventory by product
 - **Responsive layout** — Side-by-side grid layout on desktop, stacked on mobile
 
-### Auto-Dismissing Messages
+---
+
+## 💬 Auto-Dismissing Messages
 
 - **3-second auto-dismiss** — Status messages automatically disappear after 3 seconds
 - **Smooth animations** — Slide-down entrance (0.3s), slide-up exit (0.3s at 2.7s mark)
@@ -634,15 +650,16 @@ All errors follow a consistent JSON format:
 }
 ```
 
-### HTTP Status Codes Used
+### HTTP Status Codes
 
 | Code | Meaning | When |
-|---|---|---|
+|------|---------|------|
 | `200` | OK | Successful read/update |
 | `201` | Created | Successful create |
 | `204` | No Content | Successful delete |
 | `400` | Bad Request | Validation error, invalid input |
 | `401` | Unauthorized | Missing or invalid JWT token |
+| `403` | Forbidden | Insufficient permissions for role |
 | `404` | Not Found | Resource doesn't exist |
 | `500` | Server Error | Unexpected server failure |
 
@@ -662,9 +679,8 @@ Unhandled errors are caught by the global error middleware in `errorMiddleware.j
    - **Login** → `POST /api/auth/login` (copy the token)
    - **Create Supplier** → `POST /api/suppliers`
    - **Create Product** → `POST /api/products` (use supplier `_id`)
-   - **Update Product** → `PUT /api/products/:id` (use product `_id` and new details)
-   - **Update Supplier** → `PUT /api/suppliers/:id` (use supplier `_id` and new details)
-   - **Stock In** → `POST /api/stock/in` (use product `_id`)
+   - **Update Product** → `PUT /api/products/:id`
+   - **Stock In** → `POST /api/stock/in`
    - **Stock Out** → `POST /api/stock/out`
    - **Reports** → `GET /api/reports/summary`
    - **Alerts** → `GET /api/alerts/low-stock` (use Bearer token)
@@ -672,13 +688,10 @@ Unhandled errors are caught by the global error middleware in `errorMiddleware.j
 ### Using curl
 
 ```bash
-# Health check
-curl http://localhost:5000
-
 # Register
 curl -X POST http://localhost:5000/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"name":"Admin","email":"admin@test.com","password":"password123"}'
+  -d '{"name":"Admin","email":"admin@test.com","password":"password123","role":"admin"}'
 
 # Login
 curl -X POST http://localhost:5000/api/auth/login \
@@ -694,28 +707,86 @@ curl http://localhost:5000/api/reports/summary
 
 ### Using MongoDB Compass
 
-Connect to `mongodb://localhost:27017` in Compass to visually inspect:
+Connect to your MongoDB Atlas cluster to visually inspect:
 - `inventory.users` — Registered users
 - `inventory.products` — Product catalog
 - `inventory.suppliers` — Supplier directory
 - `inventory.transactions` — Stock movement history
 
+---
+
 ## 🚀 Deployment
 
-For complete deployment instructions, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+### Deploy Frontend to Vercel
 
-**Quick Deployment Stack:**
-- **Backend:** Render, Railway, or Heroku
-- **Frontend:** Vercel or Netlify
-- **Database:** MongoDB Atlas (Cloud)
-- **Version Control:** GitHub
+1. Push code to GitHub
+2. Go to [vercel.com/dashboard](https://vercel.com/dashboard)
+3. Click **Add New** → **Project**
+4. Import your GitHub repository
+5. Set **Root Directory** to `client`
+6. Add environment variable: `VITE_API_URL=<your-backend-url>`
+7. Click **Deploy**
 
-**Recommended Setup:**
-- Backend: Render (Free tier available)
-- Frontend: Vercel (Free tier available)
-- Database: MongoDB Atlas (Free tier - 512MB)
+### Deploy Backend to Railway
+
+1. Push code to GitHub
+2. Go to [railway.app/dashboard](https://railway.app/dashboard)
+3. Click **New Project** → **Deploy from GitHub repo**
+4. Select your repository
+5. Set **Root Directory** to `backend`
+6. Add environment variables:
+   - `PORT=5000`
+   - `MONGO_URI=<your-mongodb-uri>`
+   - `JWT_SECRET=<your-secret>`
+   - `NODE_ENV=production`
+7. Click **Deploy**
+
+### Environment Variables
+
+**Backend (.env):**
+```env
+PORT=5000
+MONGO_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/inventory?retryWrites=true&w=majority
+JWT_SECRET=your_secret_key_here_min_32_chars
+NODE_ENV=production
+```
+
+**Frontend (.env.production):**
+```env
+VITE_API_URL=https://your-backend-url.com
+```
+
+For detailed deployment instructions, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 
 ---
+
+## 📚 Project Features Summary
+
+### ✅ Completed Features
+
+- [x] User authentication (Register/Login)
+- [x] JWT token-based session management
+- [x] Role-based access control (Admin, Manager, Staff)
+- [x] Product CRUD operations
+- [x] Supplier CRUD operations
+- [x] Stock in/out management
+- [x] Transaction logging
+- [x] Low stock alerts
+- [x] Business reports (Summary, Low Stock, Total Value, Transactions)
+- [x] Session timeout with warning modal
+- [x] Trend analysis with multiple chart types
+- [x] CSV export functionality
+- [x] Auto-dismissing status messages
+- [x] Responsive design (Mobile, Tablet, Desktop)
+- [x] Global error handling
+- [x] Request validation
+- [x] CORS protection
+- [x] MongoDB Atlas integration
+- [x] Production-ready deployment
+
+---
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)
@@ -725,12 +796,35 @@ For complete deployment instructions, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUI
 
 ---
 
-## 📄 License
+## 📝 License
 
 This project is licensed under the ISC License.
 
 ---
 
+## 🙏 Acknowledgments
+
+- Built with modern web technologies
+- Inspired by real-world inventory management needs
+- Community-driven development
+
+---
+
+## 📞 Support
+
+For issues, questions, or suggestions:
+1. Check existing GitHub issues
+2. Create a new issue with detailed description
+3. Include error messages and steps to reproduce
+
+---
+
 <p align="center">
-  Built with ❤️ for the ECFS Hackathon 2026
+  Built with ❤️ for efficient inventory management
+</p>
+
+<p align="center">
+  <strong>Frontend:</strong> React + Vite + Tailwind CSS<br>
+  <strong>Backend:</strong> Node.js + Express + MongoDB<br>
+  <strong>Deployment:</strong> Vercel + Railway + MongoDB Atlas
 </p>
