@@ -15,8 +15,8 @@ Built with **React/Vite** frontend, **Node.js/Express** backend, and **MongoDB A
 
 ## 🎯 Live Demo
 
-- **Frontend:** [https://inventory-dashboard.vercel.app](https://inventory-dashboard.vercel.app)
-- **Backend API:** [https://inventory-api-production.up.railway.app](https://inventory-api-production.up.railway.app)
+- **Frontend:** [https://inventory-management-api-one.vercel.app](https://inventory-management-api-one.vercel.app)
+- **Backend API:** [https://inventory-management-api-production-d93e.up.railway.app](https://inventory-management-api-production-d93e.up.railway.app)
 
 **Test Credentials:**
 ```
